@@ -1,0 +1,595 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\  \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#1}
+\newcommand{\hmwkDueDate}{September 7, 2018}
+\newcommand{\hmwkClass}{625.603 - Statistical Methods and Data Analysis}
+\newcommand{\hmwkClassTime}{Fall 2018}
+\newcommand{\hmwkClassInstructor}{Professor Barry Bodt}
+\newcommand{\hmwkAuthorName}{\textbf{Cameron McIntyre}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:55pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+    
+\textbf{2.2.4:} Suppose that two cards are dealt from a standard 52-card poker deck. Let A be the event that the sum of the two cards is 8 (assume that aces have a numerical value of 1). How many outcomes are in A?
+\newline
+\newline
+\textbf{Answer:}
+We use the counting Principle:
+
+There are $\binom{6}{1}$ ways of choosing the number of the first card. This corresponds to the cards A,2,3,5,6,7.
+\newline There are $\binom{4}{1}$ Ways to choose the suit of the second card.
+\newline For the special case of the number 4, There are $\binom{4}{1}$ ways to choose the first 4, only $\binom{3}{1}$ to choose the suit of the second 4.
+
+This makes the total number of ways to choose 2 cards that add up to 8: \newline
+$\binom{6}{1} \cdot \binom{4}{1} + \binom{4}{1} \cdot \binom{3}{1} = 108$
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    
+\textbf{2.2.11:} A woman has her purse snatched by two teenagers. She is subsequently shown a police lineup consisting of five suspects, including the two perpetrators. What is the sample space associated with the experiment ?Woman picks two suspects out of lineup?? Which outcomes are in the event A: She makes at least one incorrect identification?
+\newline
+\newline
+\textbf{Answer:}
+\newline
+Let $B_i 1\leq i \leq 3$ Represent the bystanders and $P_j 1\leq j \leq 2$ represent the perpetrators.
+\newline
+\newline
+We enumerate the sample space \textbf{S}:
+\newline
+$\textbf{S} = {(B_1,B_2),(B_1,B_3),(B_2,B_3),(B_1,P_1),(B_1,P_2),(B_2,P_1),(B_2,P_2),(B_3,P_1),(B_3,P_2), (P_1,P_2)}$
+\newline
+The outcomes associate with the event textbf{A}:
+\newline
+$\textbf{A} ={(S_1,P_1),(S_1,P_2),(S_2,P_1),(S_2,P_2),(S_3,P_1),(S_3,P_2), (P_1,P_2)}$
+
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+    
+\textbf{2.2.28:}  
+Let events A and B and sample space S be defined as the following intervals:
+\newline
+$$ \textbf{S} = \{x : 0 \leq x \leq 10\} $$
+$$\textbf{A} = \{x : 0 < x < 5 \} $$
+$$\textbf{B} = \{x : 3\leq x \leq 7 \} $$
+Characterize the following events: 
+\newline
+(a) $A^C =\{x : 0, 5 \leq x \leq 10\}$
+\newline
+(b) $A \cap B=\{x : 3 \leq x <  5\}$
+\newline 
+(c)  $A \cup B=\{x : 0 < x \leq  7\}$
+\newline 
+(d)$A \cap B^C=\{x : 0 < x <  3\}$
+\newline 
+(e) $A^C \cup B=\{x : 5 \leq x \leq  7\}$
+\newline 
+(f) $A^C \cap B^C=\{x : 0,  7 < x \leq  10\}$
+\newline
+\newline
+\newline
+
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+    
+\textbf{2.2.40:}  
+For two events A and B defined on a sample space 
+$\textbf{S}$:
+\newline
+$N(A \cap B^C)=15$
+\newline
+$N(A^C \cap B)=50$
+\newline
+and 
+\newline
+$N(A\cap B)=2$
+\newline
+Given that N(S) = 120, how many outcomes belong to neither A nor B?
+\newline
+\newline
+\textbf{Answer:}
+\newline
+We approach this problem by partitioning the sample space into mutually exclusive sets.
+\newline
+$S = (A\cup B)\cup (A\cup B)^C$ \textbf{(1)}
+\newline
+By Definition
+$(A\cup B)\cap (A\cup B)^C= \emptyset$
+\newline
+Taking the left hand side of the above union, we can break it up as follows:
+\newline
+$(A\cup B) = (A\cup B^C)  \cup (A^C\cup B) \cup (A^C\cup B) $
+\newline
+This means we can represent \textbf{(1)} as:
+\newline 
+ $S = (A\cup B)\cup (A\cup B)^C = [(A\cap B^C)  \cup (A^C\cap B) \cup (A\cap B)] \cup (A\cup B)^C$
+\newline
+\newline
+Applying \textbf{N} as an operator, and knowing that the sets are disjoint we get:
+\newline
+$\textbf{N}(S) = \textbf{N}  ([(A\cap B^C)  \cup (A^C\cap B) \cup (A\cap B)] \cup (A\cup B)^C)$
+
+$\textbf{N}(S) = \textbf{N}  ((A\cap B^C))  +\textbf{N}  ( (A^C\cap B) )   +\textbf{N}  ((A\cap B))   +\textbf{N}  ( (A\cup B)^C)$
+\newline
+$120=15 + 50 + 2 + \textbf{N}  ( (A\cup B)^C)$
+\newline
+$\textbf{N}  ( (A\cup B)^C)=120-15-50-2$
+\newline
+$\textbf{N}  ( (A\cup B)^C)=53$
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{2.3.2:}  
+2.3.2. Let A and B be any two events defined on S. Suppose that $P(A) = 0.4$, $P(B) = 0.5$, and $P(A \cap B) = 0.1$. What is the probability that A or B but not both occur?
+\newline
+\textbf{Answer:}
+\newline
+The goal is to find $P((A\cup B) \setminus (A\cap B))=P(A\cap B^C) + P(A^C\cap B)$ since they are disjoint sets. 
+\newline
+Consider the following equations
+\newline
+$P(A)=P(A\cap B)+P(A\cap B^C)$ \textbf{(1)} 
+\newline
+$P(B)=P(A\cap B)+P(A^C\cap B)$ \textbf{(2)}
+\newline
+From  \textbf{(1)} 
+\newline
+$.4=.1+P(A\cap B^C)$ 
+\newline
+$.3=P(A\cap B^C)$  \textbf{(3)} 
+\newline
+From  \textbf{(2)} 
+\newline
+$.5=.1+P(A^\cap B)$ 
+\newline
+$.4=P(A\cap B^C)  \textbf{(4)} $
+\newline
+Back to this statement $P((A\cup B) \setminus (A\cap B))=P(A\cap B^C) + P(A^C\cap B)$
+\newline
+We substitute using \textbf{(4)} \textbf{(4)} to get:
+\newline
+ $P((A\cup B) \setminus (A\cap B))=.3 + .4=.7$
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\textbf{2.3.12:}  
+Events $A_1$ and $A_2$ are such that $A_1 \cup A_2 = \textbf{S}$  and  $A_1\cap A_2 = \emptyset$.
+\newline
+Find p2 if $P(A1)=p1$, $P(A2)=p2$, and $3p1 - p2 = \frac{1}{2}$ .
+\newline
+\textbf{Answer:}
+\newline
+Using the information given $\textbf{S}=A\cup B$ 
+\newline
+Then $$P(\textbf{S}) = 1
+\Leftrightarrow
+ 1=P(A\cup B) 
+ \Leftrightarrow
+ 1 = P(A) + P(B) - P(A\cap B)$$
+\newline
+We know $ A\cap B = \emptyset$ from the definitions in the question. So,  $P(A\cap B) = 0$.
+\newline
+Therefore,
+$$1=P(A\cup B) 
+ \Leftrightarrow
+ 1 = P(A) + P(B) - P(A\cap B) \Leftrightarrow1 = P(A) + P(B) \Leftrightarrow 1=p_1+p_2$$
+\newline
+Now we have 2 equations and 2 unknowns. It is an exercise of substitution to arrive at a solution.
+\newline
+\textbf{(1)} $1=p_1+p_2$
+\newline
+\textbf{(2)} $3p1 - p2 = \frac{1}{2}$
+\newline
+From \textbf{(1)}, Let $p_1=1-p_2$
+\newline Substitute into \textbf{(2)}
+\newline 
+$3(1-p_2) - p_2 = \frac{1}{2}$
+\newline 
+$3- 4 \cdot p_2 = \frac{1}{2}$
+\newline 
+$p_2* = \frac{5}{2}$
+\newline 
+Substituting $p_2*$ in into \textbf{(1)}
+\newline 
+$1-\frac{5}{8}=p_1*$
+\newline 
+We reach our answers:
+$P(A_1)=p_1 = \frac{3}{8}$ and$P(A_2)=p_2 = \frac{5}{8}$
+
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+\textbf{2.3.16:}  
+Two dice are tossed. Assume that each possible outcome has a $\frac{1}{36}$probability. Let A be the event that the  sum of the faces showing is 6, and let B be the event that the face showing on one die is twice the face showing on the other.Calculate $P(A\cap B^C )$.
+\newline
+\textbf{Answer:}
+\newline
+There are $\binom{5}{1}$ ways to roll the first die so that they sum to 6 and 1 way to roll the second die to make that sum to 6. The problem is that this includes the event where $d_1 = 2 \cdot d_2  or. d_2 = 2 \cdot d_1$.
+\newline
+To address this we must remove the events where the number on one die is twice that of the number displayed on the other die. This occurs in the sample space twice with the pairs $(2,4)$ and $(4,2)$.
+\newline
+This leaves the total number of events in  $A\cap B^C $ as $\binom{5}{1}\cdot 1-2= 3$.
+\newline
+Therefore the probability $P(A\cap B^C)=\frac{3}{36}=\frac{1}{12}$
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\textbf{2.4.7:}  
+An urn contains one red chip and one white chip. One chip is drawn at random. If the chip selected is red, that chip together with two additional red chips are put back into the urn. If a white chip is drawn, the chip is re- turned to the urn. Then a second chip is drawn. What is the probability that both selections are red?
+\newline
+\textbf{Answer:}
+Let $D_1$ be the first draw and $D_2$ be the second draw. 
+\newline
+$P(D_2=R | D_1=R)=P(D_2=R  and  D_1=R) \cdot P(D_1=R) = \frac{3}{4} \cdot \frac{1}{2}=\frac{3}{8}$
+\newline
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\textbf{ 2.4.10:}  
+2.4.10. Suppose events A and B are such that $P(A \cap B) = 0.1$ and $P((A\cup B)^C) = 0.3$. If $P(A) =  0.2$, what does $P[(A \cap B)|(A \cup B)^C] $equal? (Hint: Draw the Venn diagram.)
+\newline
+\textbf{Answer:}
+By inspection this set is Null. Therefore  $P[(A \cap B)|(A \cup B)^C] = 0$
+\newline
+We can see this using DeMorgans law on the event we are conditioning on (to the right of the \textbf{$|$}).
+\newline
+$ (A \cap B)^C =  (A^C \cap  B^C)$
+\newline
+So for some $x$ it is impossible for $x\in (A \cap B)$ and $x\in (A^C\cap B^C)$.
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{ 2.4.16:}  
+Given that $P(A) + P(B) = 0.9$, $P(A|B) = 0.5$, and $P(B|A) = 0.4$, find $P(A)$.
+\newline
+\textbf{Answer:}
+\newline
+$$P(B|A)=\frac{P(B\cap A)}{P(A)=.4}$$
+\newline
+$$P(A|B)=\frac{P(B\cap A)}{P(B)=.5}$$
+\newline
+$$P(B|A)=\frac{P(B\cap A)}{P(A)=.4}\leftrightarrow P(A\cap B) = .4P(A)$$
+\newline
+$$P(A|B)=\frac{P(B\cap A)}{P(B)=.5}\leftrightarrow P(A\cap B) = .5P(A)$$
+\newline
+Using the above results we can equate $P(A\cap B)$:
+\newline
+$.4P(A)=.5P(B)\leftrightarrow .4P(A)-.5P(B)=0$
+\newline 
+And we use $P(B)=.9-P(A)$ to substitute into the equation above.
+$$4P(A)-.5\cdot(.9-P(A))=0)\leftrightarrow .4P(A)-.45+.5P(A)=0$$
+\newline 
+Simplifying, we arrive at $P(A)=\frac{.45}{9}=\frac{1}{2}$
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{2.4.23:}
+Given that $P(A) + P(B) = 0.9$, $P(A|B) = 0.5$, and $P(B|A) = 0.4$, find $P(A)$.
+\newline
+
+\textbf{Answer:}
+Your favourite college football team has had a good season so far but they need to win at least two of their last four games to qualify for a New Year?s Day bowl bid. Oddsmakers estimate the team?s probabilities of winning each of their last four games to be 0.60, 0.50, 0.40, and 0.70, respectively.
+\newline
+(a) What are the chances that you will get to watch your team play on Jan. 1?
+\newline
+(b) Is the probability that your team wins all four games given that they have won at least three games equal to the probability that they win the fourth game? Explain.
+\newline
+(c) Is the probability that your team wins all four games given that they won the first three games equal to the probability that they win the fourth game?
+\newline
+\textbf{Answer:}
+\newline
+A) Let $G_1$,$G_2$,$G_3$,$G_4$ correspond to winning the 1st, 2nd 3rd and 4th game, respectively.
+Then
+\newline 
+P(Wins at least 2 Games) = 1- P(wins at most one game)
+\newline
+P(Wins at least 2 Games) = 1 - (1-.6)(1-.5)(1-.4)(1-.7) +.6(1-.5)(1-.4)(1-.7) +(1-.6)(.5)(1-.4)(1-.7)+(1-.6)(1-.5)4(1-.7)+(1-.6)(1-.5)(1-.4).7
+\newline
+P(Wins at least 2 Games) = .766
+\newline
+B and C) Is the probability that your team wins all four games given that they have won at least three games equal to the probability that they win the fourth game? Explain.
+\newline
+No. The probabilities are not equal. See Below:
+\newline
+P(Win at least 3)$= (.6)(.4)(.5)(.7)+(.6)(.4)(.5)(1-.7) +(.6)(.4)(1-.5)(.7)+(.6)(1-.4)(.5)(.7)+(1-.6)(.4)(.5)(.7)$
+\newline
+P(Win 4th $|$ Won 3 already) = .386
+\newline
+P(Win all 4)=(.6)(.4)(.5)(.7) = .08
+\newline
+P(Win 4th $|$ Won 3 already) =.08/.386=.2176
+\newline
+We observe that the probability of winning the fourth game conditional on winning the first threwe is higher. This is because we have limited the sample space to the set of events where the team has win the first 3 games. Because we have made the "denominator" smaller the probability increases. 
+\newline
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\textbf{ 2.4.46:}  
+Brett and Margo have each thought about murder- ing their rich Uncle Basil in hopes of claiming their inheritance a bit early. Hoping to take advantage of Basil's predilection for immoderate desserts, Brett has put rat poison into the cherries flambe; Margo, unaware of Brett's activities, has laced the chocolate mousse with cyanide. Given the amounts likely to be eaten, the probability of the rat poison being fatal is 0.60; the cyanide, 0.90. Based on other dinners where Basil was presented with the same dessert options, we can assume that he has a 50 chance  of asking for the cherries flambe, a 40 chance of ordering the chocolate mousse, and a 10 chance of skipping dessert altogether. No sooner are the dishes cleared away than Basil drops dead. In the absence of any other evidence, who should be considered the prime suspect?
+\newline
+\textbf{Answer:}
+\newline
+We label our events Br as Brad being the killer and M margo being the killer. We need to find who has a greater chance of being the killer. We define the event as P(B|Basil is Dead).:
+\newline
+$$P(Br|Basil Dead)=\frac{P(Basil Dead \cap Br)}{P(Basil Dead)} = 
+\frac{P(Basil Dead \cap Br)}{P(Basil Dead|Br)+P(Basil Dead|M)}$$
+\newline 
+$$\leftrightarrow$$
+\newline
+$$P(Br|Basil Dead)=\frac{.6\cdot .5}{.6\cdot .5 +.4*.9}$$
+\newline 
+$$\leftrightarrow$$
+\newline
+$$P(Br|Basil Dead)=\frac{.6\cdot .5}{.6\cdot .5 +.4*.9}.5=\frac{.3}{.66}=.45$$
+\newline
+$$P(M) = .55$$
+\newline
+The more likely suspect is Margot.
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{ 2.5.5:}  
+Dana and Cathy are playing tennis. The probability that Dana wins at least one out of two games is 0.3. What is the probability that Dana wins at least one out of the 4?
+\newline
+\textbf{Answer:}
+The event "Dana wins at least one out of two games" will be denoted as D, and we know P(D)=.3. We are trying to find $P(D_1\cup D_2)$ Where 1 and 2 represent a set of 2 games. This is event can be expressed as $P(D_1\cup D_2)=1-P(D_1^C\cap D_2^C)$.
+\newline
+This gives us probability:
+\newline
+$$P(D_1\cup D_2)=1-P(D_1^C\cap D_2^C)=1-P(D_1^C)\cdot P(D_2^C)=1-.7\cdot .7=.51$$
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\textbf{ 2.5.16:}  
+On her way to work, a commuter encounters four traffic signals. Assume that the distance between each of the four is sufficiently great that her probability of getting a green light at any intersection is independent of what happened at any previous intersection. The first two lights are green for forty seconds of each minute; the last two, for thirty seconds of each minute. What is the probability that the commuter has to stop at least three times?
+\newline
+\textbf{Answer:}
+\newline
+Let $L_i^C$ Represent a green light at the ith light and $L_i$ represent stopping at the ith light.
+Then:
+\newline
+P(Stop at least 3 times)= $P(L_1)P(L_2)P(L_3)P(L_4)+P(L_1^C)P(L_2)P(L_3)P(L_4)+P(L_1)P(L_2^C)P(L_3)P(L_4)+P(L_1)P(L_2)P(L_3^C)P(L_4)+P(L_1)P(L_2)P(L_3)P(L_4^C)]$
+\newline
+P(Stop at least 3 times)=$(\frac{1}{3}\frac{1}{3}\frac{1}{2}\frac{1}{2})+(\frac{2}{3}\frac{1}{3}\frac{1}{2}\frac{1}{2})+(\frac{1}{3}\frac{2}{3}\frac{1}{2}\frac{1}{2})+(\frac{1}{3}\frac{1}{3}\frac{1}{2}\frac{1}{2})+(\frac{1}{3}\frac{1}{3}\frac{1}{2}\frac{1}{2})$
+\newline
+P(Stop at least 3 times)=$(\frac{1}{36}+\frac{2}{36}+\frac{2}{36}+\frac{1}{36}+\frac{1}{36})$
+\newline
+P(Stop at least 3 times)=$\frac{7}{36}$
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{ 2.5.32:}  
+
+What is the smallest number of switches wired in parallel that will give a probability of at least 0.98 that a circuit will be completed? Assume that each switch operates independently and will function properly 60 of the time.
+\newline
+\textbf{Answer:}
+A parallel circuit fails if all of the switches fail. We are trying to find the number of switches needed to make the circuit 98 percent fail-proof.
+\newline
+Define a the circuit working as $C$ and failing as $C^C$. Define the switch working as $W$ and failing as $W^C$. Then the probability of the circuit working can be expressed as:
+$$P(C)=1-P(C^C)=1-P(\cap_i^n W^C)$$
+Where n is the number of switches.
+\newline
+To find n such that P(C) >.98, we use some algebraic manipulation and independence to isolate for n.
+$$1-.98= \Pi_i^nP(W^C) \leftrightarrow .02=.4^n$$
+\newline
+$$  \frac{\log{.02}}{log{.4}}=n \leftrightarrow n=4.26$$
+\newline
+Therefore we use at least 5 switches to make the circuit 98 percent fail proof. 
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+\textbf{ 2.5.32:}  
+
+Monte Carlo exercise: John has integers 1:10. He randomly draws 5 without replacement and reasons that he could estimate the 80th percentile of his 10 integers, the value 8, by taking the 2nd largest sampled value; that is the 4th value in order from smallest to largest. 
+(a) Applying this approach repetitively, what proportion of the time will he accurately estimate the value 8? 
+(b) Underestimate? 
+(c) Overestimate? The answer is easily accessible using combinations in the next module, but until then, simulation is the preferred approach.
+\newline
+\textbf{Answer:}
+Running the simulation (code Below In Python).
+John underestimates about 50.128 percent of the time, Correctly estimates 27.57 percent of the time and overestimates about 22.302.
+\newline
+\newline
+\newline
+\newline 
+Using Python Code:
+\newline
+\#!/usr/bin/env python3
+\newline
+\# -*- coding: utf-8 -*-
+\newline
+"""
+\newline
+Created on Sat Sep  1 13:32:43 2018
+\newline
+@author: cpmcintyre
+\newline
+"""
+\newline
+import numpy as np
+\newline
+from numpy.random import choice
+\newline
+from numpy import sort
+\newline
+samplechoice=list(range(1,11))
+\newline
+Results = []
+\newline
+for i in range(100000):
+\newline
+    k=sort(choice(samplechoice,5, replace=False))
+\newline
+    Results.append(k[3])
+\newline
+counts=[0,0,0]
+\newline
+for i in Results:
+\newline
+    if $i < 8$:
+    \newline
+        counts[0]+=1.0
+\newline
+    elif $i > 8$:
+\newline
+        counts[2]+=1.0
+\newline    else:
+\newline
+        counts[1]+=1.0
+\newline        
+\newline        
+print((counts[0]/10000, counts[1]/10000, counts[2]/100000))
+\newline        
+
+\end{homeworkProblem}
+
+
+
+\end{document}
